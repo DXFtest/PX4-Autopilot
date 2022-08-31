@@ -111,7 +111,7 @@ void Ekf::stopFakeHgtFusion()
 
 void Ekf::fuseFakeHgt()
 {
-	const float obs_var = sq(0.5f);
+	const float obs_var = sq(_params.pos_noaid_noise);
 
 	const float innov_gate = 3.f;
 
