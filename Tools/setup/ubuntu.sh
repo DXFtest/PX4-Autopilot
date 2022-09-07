@@ -159,8 +159,7 @@ if [[ $INSTALL_NUTTX == "true" ]]; then
 	fi
 
 	# arm-none-eabi-gcc
-	NUTTX_GCC_VERSION="9-2020-q2-update"
-	NUTTX_GCC_VERSION_SHORT="9-2020q2"
+	NUTTX_GCC_VERSION="10.3-2021.10"
 
 	source $HOME/.profile # load changed path for the case the script is reran before relogin
 	if [ $(which arm-none-eabi-gcc) ]; then
@@ -173,8 +172,8 @@ if [[ $INSTALL_NUTTX == "true" ]]; then
 
 	else
 		echo "Installing arm-none-eabi-gcc-${NUTTX_GCC_VERSION}";
-		wget -O /tmp/gcc-arm-none-eabi-${NUTTX_GCC_VERSION}-linux.tar.bz2 https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu-rm/${NUTTX_GCC_VERSION_SHORT}/gcc-arm-none-eabi-${NUTTX_GCC_VERSION}-${INSTALL_ARCH}-linux.tar.bz2 && \
-			sudo tar -jxf /tmp/gcc-arm-none-eabi-${NUTTX_GCC_VERSION}-linux.tar.bz2 -C /opt/;
+		wget -O /tmp/gcc-arm-none-eabi-${NUTTX_GCC_VERSION}-linux.tar.bz2 https://developer.arm.com/-/media/Files/downloads/gnu-rm/${NUTTX_GCC_VERSION}/gcc-arm-none-eabi-${NUTTX_GCC_VERSION}-${INSTALL_ARCH}-linux.tar.bz2
+        sudo tar -jxf /tmp/gcc-arm-none-eabi-${NUTTX_GCC_VERSION}-linux.tar.bz2 -C /opt/;
 
 		# add arm-none-eabi-gcc to user's PATH
 		exportline="export PATH=/opt/gcc-arm-none-eabi-${NUTTX_GCC_VERSION}/bin:\$PATH"
