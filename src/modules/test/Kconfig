@@ -1,0 +1,5 @@
+menuconfig MODULES_SAFE_DETECTOR
+	bool "safe_detector"
+	default n
+	---help---
+		Enable support for safe_detector
