@@ -80,6 +80,7 @@ void SafeDetector::Run()
 		updateParams(); // update module parameters (in DEFINE_PARAMETERS)
 	}
 
+	//获取无人机状态（是否解锁）
 	if (_vehicle_status_sub.updated()) {
 		vehicle_status_s vehicle_status;
 
@@ -93,20 +94,25 @@ void SafeDetector::Run()
 
 	distance_sensor_s distance_sensor;
 
-	//取值
+	//获取激光传感器数值
 	for (unsigned i = 0; i < _distance_sensor_subs.size(); i++) {
 		if (_distance_sensor_subs[i].copy(&distance_sensor)) {
 			_down = distance_sensor.current_distance;
 		}
 	}
 
-	double data = rand()/(double)RAND_MAX;
-
-	//输出显示
-	// if(_down < 1.f )
-	if(_armed){
-		PX4_INFO("%f",data);
+	//发送警告信息
+	if(_armed && (_down > 5.0f)){
+		PX4_INFO("高度过高！");
 	}
+
+	// double data = rand()/(double)RAND_MAX;
+
+	// //输出显示
+	// // if(_down < 1.f )
+	// if(_armed){
+	// 	PX4_INFO("%f",data);
+	// }
 
 
 	perf_end(_loop_perf);
