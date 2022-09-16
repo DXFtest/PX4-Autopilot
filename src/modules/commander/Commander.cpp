@@ -2699,6 +2699,12 @@ void Commander::handleAutoDisarm()
 		// Auto disarm after 5 seconds if kill switch is engaged
 		bool auto_disarm = _actuator_armed.manual_lockdown;
 
+		_safedetector.flag = true;
+		_safe_detector_sub.copy(&_safedetector);
+		if(!_safedetector.flag){
+			auto_disarm = true;
+		}
+
 		// auto disarm if locked down to avoid user confusion
 		//  skipped in HITL where lockdown is enabled for safety
 		if (_vehicle_status.hil_state != vehicle_status_s::HIL_STATE_ON) {

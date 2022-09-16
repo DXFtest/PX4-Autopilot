@@ -72,6 +72,8 @@ void SafeDetector::Run()
 	perf_begin(_loop_perf);
 	perf_count(_loop_interval_perf);
 
+	_safedetector.timestamp = hrt_absolute_time();
+
 	// Check if parameters have changed
 	if (_parameter_update_sub.updated()) {
 		// clear update
@@ -101,9 +103,12 @@ void SafeDetector::Run()
 		}
 	}
 
+	_safedetector.flag = true;
 	//发送警告信息
 	if(_armed && (_down > 5.0f)){
-		PX4_INFO("高度过高！");
+		// PX4_INFO("高度过高！");
+		_safedetector.flag = false;
+
 	}
 
 	// double data = rand()/(double)RAND_MAX;
@@ -115,6 +120,7 @@ void SafeDetector::Run()
 	// }
 
 
+	_safe_detector_pub.publish(_safedetector);
 	perf_end(_loop_perf);
 }
 

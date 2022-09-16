@@ -54,6 +54,8 @@
 #include <uORB/SubscriptionMultiArray.hpp>
 #include <uORB/topics/distance_sensor.h>
 
+#include <uORB/topics/safe_detector.h>
+
 using namespace time_literals;
 
 class SafeDetector : public ModuleBase<SafeDetector>, public ModuleParams, public px4::ScheduledWorkItem
@@ -80,11 +82,14 @@ private:
 
 	// Publications
 	uORB::Publication<orb_test_s> _orb_test_pub{ORB_ID(orb_test)};
+	uORB::Publication<safe_detector_s> _safe_detector_pub{ORB_ID(safe_detector)};
 
 	// Subscriptions
 	uORB::SubscriptionCallbackWorkItem _sensor_accel_sub{this, ORB_ID(sensor_accel)};        // subscription that schedules WorkItemExample when updated
 	uORB::SubscriptionInterval         _parameter_update_sub{ORB_ID(parameter_update), 1_s}; // subscription limited to 1 Hz updates
 	uORB::Subscription                 _vehicle_status_sub{ORB_ID(vehicle_status)};          // regular subscription for additional data
+
+	uORB::Subscription                 _safe_detector_sub{ORB_ID(safe_detector)};          // test
 
 	// Performance (perf) counters
 	perf_counter_t	_loop_perf{perf_alloc(PC_ELAPSED, MODULE_NAME": cycle")};
@@ -101,4 +106,6 @@ private:
 	float _down{0.0f};
 
 	bool _armed{false};
+
+	safe_detector_s _safedetector{};
 };

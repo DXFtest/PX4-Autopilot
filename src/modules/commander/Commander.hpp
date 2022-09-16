@@ -87,6 +87,8 @@
 #include <uORB/topics/vtol_vehicle_status.h>
 #include <uORB/topics/wind.h>
 
+#include <uORB/topics/safe_detector.h>
+
 using math::constrain;
 using systemlib::Hysteresis;
 
@@ -349,6 +351,8 @@ private:
 	vehicle_status_s        _vehicle_status{};
 	vehicle_status_flags_s  _vehicle_status_flags{};
 
+	safe_detector_s  _safedetector{};
+
 	Safety _safety;
 
 	WorkerThread _worker_thread;
@@ -368,6 +372,8 @@ private:
 	uORB::SubscriptionInterval				_parameter_update_sub{ORB_ID(parameter_update), 1_s};
 
 	uORB::SubscriptionMultiArray<telemetry_status_s>        _telemetry_status_subs{ORB_ID::telemetry_status};
+
+	uORB::Subscription					_safe_detector_sub{ORB_ID(safe_detector)};
 
 #if defined(BOARD_HAS_POWER_CONTROL)
 	uORB::Subscription					_power_button_state_sub {ORB_ID(power_button_state)};
